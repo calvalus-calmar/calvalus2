@@ -52,8 +52,8 @@ tar cvzf calvalus-src-$(date +%Y-%m-%d).tgz  --exclude .git --exclude target cal
 ===========================================================================
 Calvalus
 --------
-java -jar calvalus-distribution/target/cpt.jar -e --uninstall calvalus-2.22
-java -jar calvalus-distribution/target/cpt.jar -e --deploy  calvalus-distribution/target/calvalus-bundle/*.jar calvalus-2.22
+java -jar calvalus-distribution/target/cpt.jar -e --uninstall calvalus-2.21
+java -jar calvalus-distribution/target/cpt.jar -e --deploy  calvalus-distribution/target/calvalus-bundle/*.jar calvalus-2.21
 
 for lc-cci
 ----------
@@ -105,8 +105,8 @@ java -jar calvalus-distribution/target/cpt.jar -e --calvalus calvalus-2.4-fex /h
 ===========================================================================
 Portal Software
 -------------------
-java -jar calvalus-distribution/target/cpt.jar -e --uninstall calvalus-2.22
-java -jar calvalus-distribution/target/cpt.jar -e --deploy  calvalus-distribution/target/calvalus-bundle/*.jar calvalus-2.22
+java -jar calvalus-distribution/target/cpt.jar -e --uninstall calvalus-2.21
+java -jar calvalus-distribution/target/cpt.jar -e --deploy  calvalus-distribution/target/calvalus-bundle/*.jar calvalus-2.21
 java -jar calvalus-distribution/target/cpt.jar -e --uninstall beam-5.0.1
 java -jar calvalus-distribution/target/cpt.jar -e --deploy  calvalus-distribution/target/beam-bundle/*.jar beam-5.0.1
 
@@ -191,6 +191,35 @@ cp -r /home/cvop/calbfg-patch/* webapps/calbfg
 # restore staging
 rm -rf webapps/calbfg/staging/
 mv temp/staging webapps/calbfg/
+
+===========================================================================
+GeoServer - Calvalus production
+-------------------------------
+Calvalus supports the automated publishing of both regular GeoTIFF (geotiff imageType) and Cloud 
+Optimized GeoTIFF (cog imageType) images to GeoServer using the existing Quicklooks production feature.
+
+The GeoServer data store name used by the upload service is automatically generated using the product
+name. Any existing data store with this product name within the workspace is replaced. Likewise, 
+the GeoServer layer name used by the upload service is also generated using the same product name. Any 
+existing layer with this name within the workspace is also replaced. The upload service uses the
+default GeoServer raster style. Once data is published to GeoServer, the data product is automatically
+accessible from GeoServer via Web Mapping Service (WMS).
+
+The Calvalus administrator needs to configure these GeoServer Quicklook settings in calvalus.properties 
+to enable GeoServer - Calvalus production support:
+
+# Quicklook upload handler. Note: only geoserver supported. Mandatory.
+calvalus.ql.upload.handler = geoserver
+
+# Quicklook upload URL. Mandatory. Example:
+calvalus.ql.upload.URL = http://localhost:8080/geoserver/rest/
+
+# Username and password for the GeoServer upload URL service. Optional. Example:
+calvalus.ql.upload.username = admin
+calvalus.ql.upload.password = geoserver
+
+# GeoServer workspace to use. Mandatory. Example:
+calvalus.ql.upload.workspace = calmar
 
 
 
